@@ -1,8 +1,8 @@
-// import { useState } from 'react';
+import { Button } from '@chakra-ui/react';
 import './App.css';
 
 function App() {
-  return <div>Hello</div>;
+  return <Button>Hello!</Button>;
 }
 
 export default App;
