@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "common": "pnpm --filter common",
-    "app": "pnpm --filter web-app"
+    "app": "pnpm --filter web-app",
+    "api": "pnpm --filter api"
   },
   "keywords": [],
   "author": "Aeri4a",
