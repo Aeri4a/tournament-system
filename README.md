@@ -51,6 +51,7 @@ What happens after deadline is gone
 - '/login'
 - '/forgot-password'
 - '/register'
+- '/account-activation'
 - '/tournament/{id}' - specific tournament
 
 ## To Do - for now
