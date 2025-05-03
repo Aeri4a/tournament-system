@@ -1,6 +1,13 @@
 services:
-  web-app:
-
-  api:
-
+  # web-app:
+  # api:
   database:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      - POSTGRES_PASSWORD=tournament
+      - POSTGRES_USER=tournament
+      - POSTGRES_DB=db
+    ports:
+      - 5432:5432

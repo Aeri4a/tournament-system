@@ -48,8 +48,9 @@ What happens after deadline is gone
 ## Routes
 
 - '/' - tournaments view
-- '/login' -
-- '/register' -
+- '/login'
+- '/forgot-password'
+- '/register'
 - '/tournament/{id}' - specific tournament
 
 ## To Do - for now
@@ -57,7 +58,7 @@ What happens after deadline is gone
 - [x] Initialize project
 - [x] Setup for UI state management
 - [x] React router - Tanstack router
-- [] Backend: TypeORM, postgres & migrations
+- [x] Backend: TypeORM, postgres & migrations
 - [] Backend: Session for auth
 - [] Email notifications
 - [] Initialize views & startup db models

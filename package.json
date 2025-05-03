@@ -9,7 +9,7 @@
     "format": "prettier --write .",
     "common": "pnpm --filter common",
     "app": "pnpm --filter web-app dev",
-    "api": "pnpm --filter api dev"
+    "api": "pnpm --filter api start:dev"
   },
   "keywords": [],
   "author": "Aeri4a",
