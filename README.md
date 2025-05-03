@@ -55,8 +55,8 @@ What happens after deadline is gone
 ## To Do - for now
 
 - [x] Initialize project
-- [] Setup for UI state management
-- [] React router - Tanstack router
+- [x] Setup for UI state management
+- [x] React router - Tanstack router
 - [] Backend: TypeORM, postgres & migrations
 - [] Backend: Session for auth
 - [] Email notifications
