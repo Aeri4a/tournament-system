@@ -29,8 +29,8 @@ export class ServerConfigService {
       database: this.configService.get('DB_NAME'),
       username: this.configService.get('DB_USER'),
       password: this.configService.get('DB_PASS'),
-      entities: ['src/*.entity.ts'],
-      migrations: ['dist/migrations/*.js'], // for some reason ts in src doesn't work for now
+      entities: ['dist/entity/*.entity.js'],
+      migrations: ['dist/migrations/*.js'],
       migrationsRun: true,
       migrationsTableName: 'migrations',
       synchronize: false,

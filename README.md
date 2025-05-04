@@ -60,10 +60,10 @@ What happens after deadline is gone
 - [x] Setup for UI state management
 - [x] React router - Tanstack router
 - [x] Backend: TypeORM, postgres & migrations
-- [] Backend: Session for auth
+- [x] Backend: Session for auth
 - [] Email notifications
-- [] Initialize views & startup db models
 - [] Apply user authentication on backend
 - [] Apply user authentication on frontend
+- [] Initialize views & startup db models
 - [] Backend: add cron for tournament start
 - [] Think about ladder organization (??)

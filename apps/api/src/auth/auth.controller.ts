@@ -1,0 +1,39 @@
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
+import { LocalGuard } from './local.guard';
+import { RegisterUserDto } from 'common';
+import { LoggedInGuard } from './loggen-in.guard';
+import { AuthRequest } from 'src/types/AuthRequest';
+import { SessionData } from 'express-session';
+
+@Controller('auth')
+export class AuthController {
+  @Post('/login')
+  @UseGuards(LocalGuard)
+  login(@Req() req: AuthRequest) {
+    return req.user;
+  }
+
+  @Post('/logout')
+  logout(
+    @Req() req: Request & { session: SessionData & { destroy: () => void } },
+  ) {
+    req.session.destroy();
+  }
+
+  @Post('/register') // TODO + MAILING + USER DECORATOR
+  register(@Body() dto: RegisterUserDto) {}
+
+  @Get()
+  @UseGuards(LoggedInGuard)
+  getUserInfo() {
+    return '';
+  }
+}
