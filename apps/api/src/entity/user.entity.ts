@@ -28,13 +28,13 @@ export class UserEntity {
   @Column({ type: 'text', nullable: true })
   activationToken: string | null;
 
-  @Column({ type: 'time with time zone', nullable: true })
+  @Column({ type: 'timestamp with time zone', nullable: true })
   activationExpires: Date | null;
 
   @Column({ type: 'text', nullable: true })
   passwordResetToken: string | null;
 
-  @Column({ type: 'time with time zone', nullable: true })
+  @Column({ type: 'timestamp with time zone', nullable: true })
   passwordResetExpires: Date | null;
 
   @CreateDateColumn()

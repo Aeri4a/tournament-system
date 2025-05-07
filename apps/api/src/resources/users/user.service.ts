@@ -10,11 +10,19 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
+  async countByEmail(email: string) {
+    return this.userRepository.countBy({ email });
+  }
+
   async getByEmail(email: string) {
     return this.userRepository.findOneBy({ email });
   }
 
   async getById(id: number) {
     return this.userRepository.findOneBy({ id });
+  }
+
+  async create(partialUser: Partial<UserEntity>) {
+    return this.userRepository.save(partialUser);
   }
 }

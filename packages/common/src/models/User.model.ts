@@ -12,7 +12,7 @@ export interface User {
   createdAt: Date;
 }
 
-export interface RegisterUserDto {
-  email: string;
-  password: string;
-}
+export type UserLoginDto = Pick<User, 'email'> & { password: string };
+
+export type RegisterUserDto = UserLoginDto &
+  Pick<User, 'firstName' | 'lastName'>;

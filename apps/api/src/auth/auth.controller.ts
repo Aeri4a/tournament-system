@@ -12,9 +12,12 @@ import { RegisterUserDto } from 'common';
 import { LoggedInGuard } from './loggen-in.guard';
 import { AuthRequest } from 'src/types/AuthRequest';
 import { SessionData } from 'express-session';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
+  constructor(private readonly authservice: AuthService) {}
+
   @Post('/login')
   @UseGuards(LocalGuard)
   login(@Req() req: AuthRequest) {
@@ -28,8 +31,10 @@ export class AuthController {
     req.session.destroy();
   }
 
-  @Post('/register') // TODO + MAILING + USER DECORATOR
-  register(@Body() dto: RegisterUserDto) {}
+  @Post('/register')
+  async register(@Body() dto: RegisterUserDto) {
+    await this.authservice.registerUser(dto);
+  }
 
   @Get()
   @UseGuards(LoggedInGuard)
