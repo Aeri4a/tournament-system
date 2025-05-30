@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { LocalStrategy } from './local.strategy';
 import { SessionSerializer } from './session.serializer';
 import { AuthController } from './auth.controller';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { AuthController } from './auth.controller';
     PassportModule.register({
       session: true,
     }),
+    MailModule,
   ],
   providers: [AuthService, LocalStrategy, SessionSerializer],
   controllers: [AuthController],

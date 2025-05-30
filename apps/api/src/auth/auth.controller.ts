@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   Req,
   Request,
   UseGuards,
@@ -34,6 +35,12 @@ export class AuthController {
   @Post('/register')
   async register(@Body() dto: RegisterUserDto) {
     await this.authservice.registerUser(dto);
+  }
+
+  @Get('/confirmation')
+  async activateAccount(@Query('token') token: string) {
+    await this.authservice.activateUser(token);
+    // TODO: redirect or sth
   }
 
   @Get()

@@ -10,6 +10,7 @@ import * as utc from 'dayjs/plugin/utc';
 import * as timezone from 'dayjs/plugin/timezone';
 
 import { UserEntity } from 'src/entity/user.entity';
+import { MailService } from 'src/mail/mail.service';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -18,7 +19,10 @@ dayjs.extend(timezone);
 export class AuthService {
   private HASH_ROUNDS: number = 12; // should be env...
 
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly mailService: MailService,
+  ) {}
 
   async validateUser(email: string, password: string) {
     const user = await this.userService.getByEmail(email);
@@ -41,7 +45,7 @@ export class AuthService {
     }
 
     const activationToken = uuid();
-    const activationExpires = dayjs().add(2, 'day').tz().toDate();
+    const activationExpires = dayjs().add(1, 'day').tz().toDate();
     const passwordHash = await bcrypt.hash(dto.password, this.HASH_ROUNDS);
 
     const newUser: Partial<UserEntity> = {
@@ -59,6 +63,30 @@ export class AuthService {
       throw new BadRequestException('Cannot create user');
     });
 
-    // send mail
+    await this.mailService
+      .sendRegisterConfirmationLink(dto.email, activationToken)
+      .then(() => {
+        console.log('Successfully sent mail!');
+      });
+  }
+
+  async activateUser(token: string) {
+    const userToActivate = await this.userService
+      .findByTokenAndNotActivated(token)
+      .catch(() => {
+        throw new BadRequestException('Cannot activate user!');
+      });
+
+    const now = dayjs();
+
+    const hasExpired = dayjs(userToActivate.activationExpires).isBefore(now);
+
+    if (hasExpired) {
+      throw new BadRequestException('Activation expired!');
+    }
+
+    await this.userService.activate(userToActivate).catch(() => {
+      throw new BadRequestException('Cannot activate user!');
+    });
   }
 }

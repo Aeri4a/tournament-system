@@ -15,6 +15,13 @@ interface DBConfig {
   synchronize: boolean;
 }
 
+interface MailBoxConfig {
+  host?: string;
+  user?: string;
+  password?: string;
+  port?: number;
+}
+
 @Injectable()
 export class ServerConfigService {
   constructor(private readonly configService: ConfigService) {}
@@ -34,6 +41,15 @@ export class ServerConfigService {
       migrationsRun: true,
       migrationsTableName: 'migrations',
       synchronize: false,
+    };
+  }
+
+  get emailConfig(): MailBoxConfig {
+    return {
+      host: this.configService.get('EMAIL_HOST'),
+      port: this.configService.get<number>('EMAIL_PORT'),
+      password: this.configService.get('EMAIL_PASS'),
+      user: this.configService.get('EMAIL_USER'),
     };
   }
 }

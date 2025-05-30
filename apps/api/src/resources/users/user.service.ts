@@ -25,4 +25,15 @@ export class UserService {
   async create(partialUser: Partial<UserEntity>) {
     return this.userRepository.save(partialUser);
   }
+
+  async findByTokenAndNotActivated(token: string) {
+    return this.userRepository.findOneByOrFail({
+      activationToken: token,
+      isActive: false,
+    });
+  }
+
+  async activate(user: UserEntity) {
+    return this.userRepository.save({ ...user, isActive: true });
+  }
 }

@@ -1,0 +1,22 @@
+import { MailerService } from '@nestjs-modules/mailer';
+import { Injectable } from '@nestjs/common';
+import { User } from 'common';
+import {
+  CONFIRMATION_SUBJECT,
+  generateConfLinkHTML,
+} from 'src/utils/confirmationMail.utils';
+
+@Injectable()
+export class MailService {
+  constructor(private readonly mailerService: MailerService) {}
+
+  sendRegisterConfirmationLink(email: User['email'], activationToken: string) {
+    // TODO: env to create link
+    const link = `http://localhost:3000/api/auth/confirmation?token=${activationToken}`;
+    return this.mailerService.sendMail({
+      to: email,
+      subject: CONFIRMATION_SUBJECT,
+      html: generateConfLinkHTML(link),
+    });
+  }
+}

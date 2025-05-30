@@ -25,6 +25,7 @@
     "typeorm:revert-migration": "npm run typeorm -- -d ./src/config/typeOrm.config.ts migration:revert"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
@@ -36,6 +37,7 @@
     "dayjs": "^1.11.13",
     "dotenv": "^16.5.0",
     "express-session": "^1.18.1",
+    "nodemailer": "^7.0.2",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "pg": "^8.15.6",
@@ -56,6 +58,7 @@
     "@types/express-session": "^1.18.1",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.7",
+    "@types/nodemailer": "^6.4.17",
     "@types/passport": "^1.0.17",
     "@types/passport-local": "^1.0.38",
     "@types/supertest": "^6.0.2",
