@@ -4,6 +4,8 @@ import { User } from 'common';
 import {
   CONFIRMATION_SUBJECT,
   generateConfLinkHTML,
+  generateResetPasswordLinkHTML,
+  RESET_PASSWORD_SUBJECT,
 } from 'src/utils/confirmationMail.utils';
 
 @Injectable()
@@ -13,10 +15,22 @@ export class MailService {
   sendRegisterConfirmationLink(email: User['email'], activationToken: string) {
     // TODO: env to create link
     const link = `http://localhost:3000/api/auth/confirmation?token=${activationToken}`;
+
     return this.mailerService.sendMail({
       to: email,
       subject: CONFIRMATION_SUBJECT,
       html: generateConfLinkHTML(link),
+    });
+  }
+
+  sendPasswordResetLink(email: User['email'], token: string) {
+    // TODO: env to create link
+    const link = `http://localhost:3000/reset-password?token=${token}`;
+
+    return this.mailerService.sendMail({
+      to: email,
+      subject: RESET_PASSWORD_SUBJECT,
+      html: generateResetPasswordLinkHTML(link),
     });
   }
 }

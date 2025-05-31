@@ -26,6 +26,10 @@ export class UserService {
     return this.userRepository.save(partialUser);
   }
 
+  async update(id: number, changes: Partial<UserEntity>) {
+    await this.userRepository.update(id, changes);
+  }
+
   async findByTokenAndNotActivated(token: string) {
     return this.userRepository.findOneByOrFail({
       activationToken: token,
@@ -35,5 +39,9 @@ export class UserService {
 
   async activate(user: UserEntity) {
     return this.userRepository.save({ ...user, isActive: true });
+  }
+
+  async findByPasswordResetToken(token: string) {
+    return await this.userRepository.findOneBy({ passwordResetToken: token });
   }
 }

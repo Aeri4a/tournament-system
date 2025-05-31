@@ -16,3 +16,14 @@ export type UserLoginDto = Pick<User, 'email'> & { password: string };
 
 export type RegisterUserDto = UserLoginDto &
   Pick<User, 'firstName' | 'lastName'>;
+
+export interface ConfirmUserDto {
+  token: string;
+}
+
+export type RequestPasswordDto = Pick<User, 'email'>;
+
+export interface ResetPasswordDto {
+  token: string;
+  newPassword: string;
+}

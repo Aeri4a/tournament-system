@@ -17,7 +17,7 @@ import { MailService } from './mail.service';
           },
           secure: false,
         },
-        dfaults: {
+        defaults: {
           from: `pingpong-challenge <${configService.emailConfig.user ?? ''}>`,
         },
       }),
