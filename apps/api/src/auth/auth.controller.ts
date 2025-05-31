@@ -27,8 +27,8 @@ export class AuthController {
 
   @Get()
   @UseGuards(LoggedInGuard)
-  getUserInfo() {
-    return '';
+  getSessionState(@Req() req: AuthRequest) {
+    return req.user;
   }
 
   @Post('/logout')

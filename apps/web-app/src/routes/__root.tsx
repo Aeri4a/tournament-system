@@ -1,14 +1,22 @@
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
+import { ColorModeButton } from '@/components/ui/color-mode';
+import { RouterContext } from '@/types/routerContext';
+import {
+  createRootRouteWithContext,
+  Link,
+  Outlet,
+} from '@tanstack/react-router';
 
-export const Route = createRootRoute({
+// import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
-      <div>
-        <Link to="/" className="[&.active]:font-bold">
+      {/* <Link to="/" className="[&.active]:font-bold">
           Home
-        </Link>
-      </div>
+        </Link> */}
+      {/* <div>
+        <ColorModeButton />
+      </div> */}
       <Outlet />
       {/* <TanStackRouterDevtools /> */}
     </>
