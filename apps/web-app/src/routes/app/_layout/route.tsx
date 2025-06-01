@@ -8,7 +8,7 @@ const Layout = () => {
     <Flex direction={'column'} minH={'100vh'}>
       <UpperBar />
       <Separator />
-      <Flex bg={'blackAlpha.100'} flex={1}>
+      <Flex bg={'bg.subtle'} flex={1}>
         <LeftBar />
         <Container flex={1} overflowY="auto" pt={10}>
           <Outlet />

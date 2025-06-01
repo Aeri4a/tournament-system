@@ -65,8 +65,8 @@ const LeftBar = () => {
   const menuItems = isAuthenticated ? MENU_ITEMS : [MENU_ITEMS[0]];
 
   return (
-    <Flex bg={'colorPalette.contrast'} alignItems={'flex-start'}>
-      <VStack align={'stretch'} gap={5} pt={10}>
+    <Flex bg={'bg'} alignItems={'flex-start'}>
+      <VStack align={'stretch'} pt={10}>
         {menuItems.map((item) => (
           <MenuItem
             item={item}

@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/store/authStore';
 import { Box, Button, Flex, Separator, Text } from '@chakra-ui/react';
-import { useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { ColorModeButton } from '../ui/color-mode';
 import { GiPingPongBat } from 'react-icons/gi';
 
@@ -16,9 +16,15 @@ const UpperBar = () => {
       alignItems={'center'}
     >
       <Flex gap={5}>
-        <Flex alignItems={'center'}>
-          <GiPingPongBat size={32} />
-        </Flex>
+        <Link to="/">
+          <Flex
+            alignItems={'center'}
+            color={'colorPalette.500'}
+            cursor={'pointer'}
+          >
+            <GiPingPongBat size={32} />
+          </Flex>
+        </Link>
         <Separator orientation={'vertical'} />
         <Text alignContent={'center'}>PingPong Challenge</Text>
       </Flex>
