@@ -52,11 +52,13 @@ const LoginPage = () => {
         <Box
           p={{ base: 6, md: 10 }}
           borderRadius="md"
-          width={{ base: '95%', sm: '80%', md: '700px', lg: '1200px' }}
+          width={{ base: '95%', sm: '80%', md: '700px', lg: '900px' }}
           boxShadow="xl"
         >
           <Flex direction={{ base: 'column', md: 'row' }}>
             <Box flex={{ base: 'none', md: 2 }}>
+              <Box>Back to Home</Box>
+              {/* TODO: Spacing & styling */}
               <Heading>PingPong Challenge</Heading>
               <Text>Your perfect tournament system</Text>
             </Box>

@@ -1,17 +1,13 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
-const Index = () => {
-  return <div>Empty for now</div>;
-};
+const Index = () => <></>;
 
 export const Route = createFileRoute('/')({
-  // beforeLoad: ({ context }) => {
-  //   if (!context.auth.isAuthenticated) {
-  //     throw redirect({
-  //       to: '/login',
-  //       replace: true,
-  //     });
-  //   }
-  // },
+  beforeLoad: () => {
+    throw redirect({
+      to: '/app',
+      replace: true,
+    });
+  },
   component: Index,
 });
