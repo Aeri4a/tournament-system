@@ -10,7 +10,7 @@ const Layout = () => {
       <Separator />
       <Flex bg={'blackAlpha.100'} flex={1}>
         <LeftBar />
-        <Container flex={1} overflowY="auto">
+        <Container flex={1} overflowY="auto" pt={10}>
           <Outlet />
         </Container>
       </Flex>

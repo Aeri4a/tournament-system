@@ -6,6 +6,10 @@ export const Route = createFileRoute('/')({
   beforeLoad: () => {
     throw redirect({
       to: '/app',
+      search: {
+        pageSize: 10,
+        pageNumber: 0,
+      },
       replace: true,
     });
   },
