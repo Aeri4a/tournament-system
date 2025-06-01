@@ -24,9 +24,8 @@ const MenuItem: FC<MenuItemProps> = ({
   <Flex
     gap={5}
     alignItems={'center'}
-    borderRadius={'md'}
     cursor={'pointer'}
-    px={5}
+    pr={10}
     py={3}
     transition={'0.2s'}
     className={'group'}
@@ -34,7 +33,8 @@ const MenuItem: FC<MenuItemProps> = ({
     <Box
       bg={isActive ? 'colorPalette.400' : 'transparent'}
       p={4}
-      borderRadius={'md'}
+      borderTopRightRadius={'md'}
+      borderBottomRightRadius={'md'}
       _groupHover={{ bg: 'colorPalette.300' }}
       transition={'0.2s'}
     >
@@ -66,7 +66,7 @@ const LeftBar = () => {
 
   return (
     <Flex bg={'colorPalette.contrast'} alignItems={'flex-start'}>
-      <VStack align={'stretch'} gap={5} pt={10} px={4}>
+      <VStack align={'stretch'} gap={5} pt={10}>
         {menuItems.map((item) => (
           <MenuItem
             item={item}
