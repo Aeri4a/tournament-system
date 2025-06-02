@@ -46,6 +46,7 @@ export default defineConfig([
         { allowConstantExport: true },
       ],
       'react/prop-types': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
     },
   },
   pluginJs.configs.recommended,
