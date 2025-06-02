@@ -1,4 +1,4 @@
-import { useTournamentStore } from '@/store/tournamentStore';
+// import { useTournamentStore } from '@/store/tournamentStore';
 import {
   ButtonGroup,
   Flex,
@@ -7,10 +7,12 @@ import {
   InputGroup,
   Pagination,
   Separator,
+  SimpleGrid,
 } from '@chakra-ui/react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import { useEffect } from 'react';
 import { LuChevronLeft, LuChevronRight, LuSearch } from 'react-icons/lu';
+import TournamentCard from './TournamentCard';
 
 const TournamentView = () => {
   //   const {  } = useTournamentStore();
@@ -57,7 +59,39 @@ const TournamentView = () => {
       </Flex>
 
       <Separator />
-      <Flex pt={5}>cards</Flex>
+      <SimpleGrid minChildWidth="sm" gap="40px" py={6} justifyItems={'center'}>
+        {/* EXAMPLE CARDS */}
+        <TournamentCard
+          currentParticipants={2}
+          maxParticipants={5}
+          deadline="25-05-2025 17:30"
+          organizerName="PP"
+          tournamentName="Tournament"
+          bannerImageUrl="https://bi.im-g.pl/im/f1/7b/1d/z30913521IEG,Tenis-stolowy--zdjecie-ilustracyjne-.jpg"
+          sponsorLogos={[
+            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
+            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
+            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
+            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
+          ]}
+          onJoin={() => {}}
+        />
+        <TournamentCard
+          currentParticipants={2}
+          maxParticipants={5}
+          deadline="25-05-2025 17:30"
+          organizerName="PP"
+          tournamentName="Tournament"
+          bannerImageUrl="https://bi.im-g.pl/im/f1/7b/1d/z30913521IEG,Tenis-stolowy--zdjecie-ilustracyjne-.jpg"
+          sponsorLogos={[
+            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
+            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
+            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
+            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
+          ]}
+          onJoin={() => {}}
+        />
+      </SimpleGrid>
     </Flex>
   );
 };

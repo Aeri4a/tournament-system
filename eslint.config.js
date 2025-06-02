@@ -45,6 +45,7 @@ export default defineConfig([
         'warn',
         { allowConstantExport: true },
       ],
+      'react/prop-types': 'off',
     },
   },
   pluginJs.configs.recommended,
