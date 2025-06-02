@@ -5,7 +5,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Index,
+  OneToMany,
 } from 'typeorm';
+import { TournamentRegistration } from './tournament-registration.entity';
 
 export enum TournamentDiscipline {
   PING_PONG = 'pingpong',
@@ -43,8 +45,11 @@ export class Tournament {
   @Column({ type: 'int' })
   maxParticipants: number;
 
-  @Column({ type: 'int', default: 0 })
-  registeredParticipantsCount: number;
+  // @Column({ type: 'int', default: 0 })
+  // registeredParticipantsCount: number;
+
+  @OneToMany(() => TournamentRegistration, (tourReg) => tourReg.tournamentId)
+  registrations: TournamentRegistration[];
 
   @Column('text', { array: true, nullable: true })
   sponsorLogoUrls?: string[];
@@ -70,7 +75,7 @@ export class Tournament {
   get isRegistrationOpen(): boolean {
     return (
       new Date() < this.registrationDeadline &&
-      this.registeredParticipantsCount < this.maxParticipants
+      this.registrations.length < this.maxParticipants
     );
   }
 }
