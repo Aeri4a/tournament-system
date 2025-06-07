@@ -2,7 +2,6 @@
 
 ## Features
 
-- select discipline
 - users -> students/organizers
 - accounts with email confirmation link
 - login + forgot password
@@ -45,25 +44,18 @@ What happens after deadline is gone
 - Users can add results, both users need to enter the same results or will be error
 - Scoreboard visualisation to choose
 
-## Routes
-
-- '/' - tournaments view
-- '/login'
-- '/forgot-password'
-- '/register'
-- '/account-activation'
-- '/tournament/{id}' - specific tournament
-
-## To Do - for now
+## To Do
 
 - [x] Initialize project
 - [x] Setup for UI state management
 - [x] React router - Tanstack router
 - [x] Backend: TypeORM, postgres & migrations
 - [x] Backend: Session for auth
-- [] Email notifications
-- [] Apply user authentication on backend
-- [] Apply user authentication on frontend
-- [] Initialize views & startup db models
+- [x] Email notifications
+- [x] Apply user authentication on backend
+- [x] Apply user authentication on frontend
+- [x] Initialize views & startup db models
 - [] Backend: add cron for tournament start
 - [] Think about ladder organization (??)
+- [] Account manage views (before login)
+- [] Returned dto (mainly user)
