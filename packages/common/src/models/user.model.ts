@@ -27,3 +27,8 @@ export interface ResetPasswordDto {
   token: string;
   newPassword: string;
 }
+
+export type UserBasicDto = Pick<
+  User,
+  'id' | 'email' | 'firstName' | 'lastName'
+>;

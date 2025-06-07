@@ -6,13 +6,12 @@ import {
   UpdateDateColumn,
   Index,
   OneToMany,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { TournamentRegistration } from './tournament-registration.entity';
-
-export enum TournamentDiscipline {
-  PING_PONG = 'pingpong',
-}
-
+import { TournamentDiscipline } from 'common';
+import { UserEntity } from './user.entity';
 @Entity('tournaments')
 export class Tournament {
   @PrimaryGeneratedColumn()
@@ -48,7 +47,7 @@ export class Tournament {
   // @Column({ type: 'int', default: 0 })
   // registeredParticipantsCount: number;
 
-  @OneToMany(() => TournamentRegistration, (tourReg) => tourReg.tournamentId)
+  @OneToMany(() => TournamentRegistration, (tourReg) => tourReg.tournament)
   registrations: TournamentRegistration[];
 
   @Column('text', { array: true, nullable: true })
@@ -58,9 +57,9 @@ export class Tournament {
   @Index()
   organizerId: number;
 
-  // @ManyToOne(() => User, user => user.organizedTournaments)
-  // @JoinColumn({ name: 'organizerId' })
-  // organizer: User;
+  @ManyToOne(() => UserEntity)
+  @JoinColumn({ name: 'organizerId' })
+  organizer: UserEntity;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

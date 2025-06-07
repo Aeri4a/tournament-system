@@ -9,7 +9,7 @@ import {
   Unique,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
-// import { Tournament } from './tournament.entity';
+import { Tournament } from './tournament.entity';
 
 @Entity('tournament_registrations')
 @Unique(['tournamentId', 'userId'])
@@ -35,11 +35,11 @@ export class TournamentRegistration {
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   registrationDate: Date;
 
-  // @ManyToOne(() => Tournament, (tournament) => tournament.id, {
-  //   onDelete: 'CASCADE',
-  // })
-  // @JoinColumn({ name: 'tournamentId' })
-  // tournament: Tournament;
+  @ManyToOne(() => Tournament, (tournament) => tournament.id, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'tournamentId' })
+  tournament: Tournament;
 
   @ManyToOne(() => UserEntity, (user) => user.id, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
