@@ -40,7 +40,7 @@ const MenuItem: FC<MenuItemProps> = ({
     >
       <Icon />
     </Box>
-    <Link to={path} search={{ pageSize: 10, pageNumber: 0 }}>
+    <Link to={path}>
       <Text
         textDecoration={isActive ? 'underline' : 'none'}
         textUnderlineOffset={isActive ? 10 : 0}

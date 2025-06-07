@@ -1,4 +1,3 @@
-// import { useTournamentStore } from '@/store/tournamentStore';
 import {
   ButtonGroup,
   Flex,
@@ -7,34 +6,80 @@ import {
   InputGroup,
   Pagination,
   Separator,
-  SimpleGrid,
+  Spinner,
 } from '@chakra-ui/react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
-import { useEffect } from 'react';
 import { LuChevronLeft, LuChevronRight, LuSearch } from 'react-icons/lu';
 import TournamentCard from './TournamentCard';
+import { useQuery } from '@tanstack/react-query';
+import { PageResponse, TournamentDto } from 'common';
+import { fetchUpcomingTournaments } from '@/api/tournamentApi';
+import { useDebounce } from 'use-debounce';
+import { useState } from 'react';
 
 const TournamentView = () => {
-  //   const {  } = useTournamentStore();
-  const search = useSearch({ from: '/app' });
   const navigate = useNavigate();
+  const query: { pageSize: number; pageNumber: number } = useSearch({
+    from: '/app',
+  });
+  const pageSize = query['pageSize'];
+  const pageNumber = query['pageNumber'];
 
-  useEffect(() => {
-    if (!('pageSize' in search) || !('pageNumber' in search)) {
-      navigate({
-        to: '/',
-      });
-    }
-  }, []);
+  const [search, setSearch] = useState('');
+  const [debouncedSearch] = useDebounce(search.trim(), 500);
+
+  const { data, isLoading } = useQuery<PageResponse<TournamentDto>, Error>({
+    queryKey: ['upcomingTournaments', pageSize, pageNumber, debouncedSearch],
+    queryFn: () =>
+      fetchUpcomingTournaments({
+        limit: pageSize,
+        page: pageNumber,
+        ...(search !== '' && { search }),
+      }),
+  });
+
+  const tournaments = data ? data.data : [];
+  const totalPages = data ? data.total : 0;
+
+  const setPage = (newPageNumber: number) => {
+    navigate({
+      to: '/app',
+      search: {
+        pageSize,
+        pageNumber: newPageNumber,
+      },
+      replace: true,
+    });
+  };
+
+  const handleSearch = (newSearch: string) => {
+    setSearch(newSearch);
+  };
+
+  // useEffect(() => {
+  //   if (!('pageSize' in query) || !('pageNumber' in query)) {
+  //     navigate({
+  //       to: '/',
+  //     });
+  //   }
+  // }, []);
 
   return (
     <Flex direction={'column'}>
       <Flex justifyContent={'space-between'} pb={5}>
         <InputGroup endElement={<LuSearch />} width={400}>
-          <Input />
+          <Input
+            value={search}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
         </InputGroup>
-        <Pagination.Root>
-          <ButtonGroup variant="ghost" size="sm">
+        <Pagination.Root
+          count={totalPages}
+          pageSize={pageSize}
+          page={pageNumber}
+          onPageChange={(e) => setPage(e.page)}
+        >
+          <ButtonGroup variant="outline" size="sm">
             <Pagination.PrevTrigger asChild>
               <IconButton>
                 <LuChevronLeft />
@@ -59,39 +104,28 @@ const TournamentView = () => {
       </Flex>
 
       <Separator />
-      <SimpleGrid minChildWidth="sm" gap="40px" py={6} justifyItems={'center'}>
-        {/* EXAMPLE CARDS */}
-        <TournamentCard
-          currentParticipants={2}
-          maxParticipants={5}
-          deadline="25-05-2025 17:30"
-          organizerName="PP"
-          tournamentName="Tournament"
-          bannerImageUrl="https://bi.im-g.pl/im/f1/7b/1d/z30913521IEG,Tenis-stolowy--zdjecie-ilustracyjne-.jpg"
-          sponsorLogos={[
-            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
-            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
-            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
-            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
-          ]}
-          onJoin={() => {}}
-        />
-        <TournamentCard
-          currentParticipants={2}
-          maxParticipants={5}
-          deadline="25-05-2025 17:30"
-          organizerName="PP"
-          tournamentName="Tournament"
-          bannerImageUrl="https://bi.im-g.pl/im/f1/7b/1d/z30913521IEG,Tenis-stolowy--zdjecie-ilustracyjne-.jpg"
-          sponsorLogos={[
-            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
-            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
-            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
-            'https://www.poznan.nocnaukowcow.pl/wp-content/uploads/2014/08/politechnika.png',
-          ]}
-          onJoin={() => {}}
-        />
-      </SimpleGrid>
+      {isLoading && (
+        <Flex alignItems={'center'} justifyContent={'center'} py={50}>
+          <Spinner />
+        </Flex>
+      )}
+      <Flex py={6} gap={10}>
+        {tournaments.length > 0 ? (
+          tournaments.map((tour) => (
+            <TournamentCard
+              key={tour.id}
+              currentParticipants={0}
+              maxParticipants={tour.maxParticipants}
+              organizerName={`${tour.organizer.firstName} ${tour.organizer.lastName}`}
+              deadline={tour.registrationDeadline}
+              tournamentName={tour.name}
+              sponsorLogos={tour.sponsorLogos}
+            />
+          ))
+        ) : (
+          <></>
+        )}
+      </Flex>
     </Flex>
   );
 };

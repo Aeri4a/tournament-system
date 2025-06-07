@@ -8,7 +8,7 @@ export const Route = createFileRoute('/')({
       to: '/app',
       search: {
         pageSize: 10,
-        pageNumber: 0,
+        pageNumber: 1,
       },
       replace: true,
     });

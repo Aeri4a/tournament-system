@@ -59,3 +59,4 @@ What happens after deadline is gone
 - [] Think about ladder organization (??)
 - [] Account manage views (before login)
 - [] Returned dto (mainly user)
+- [] Themes fix

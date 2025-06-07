@@ -1,4 +1,20 @@
 import { TournamentDiscipline } from './tournamentDiscipline.enum';
+import { User, UserBasicDto } from './user.model';
+
+export interface Tournament {
+  id: number;
+  name: string;
+  discipline: TournamentDiscipline;
+  startTime: Date;
+  registrationDeadline: Date;
+  locationAddress: string;
+  maxParticipants: number;
+  sponsorLogos: string[];
+  organizerId: string;
+  organizer: User;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export interface QueryTournamentDto {
   page?: number;
@@ -29,3 +45,21 @@ export interface RegisterForTournamentDto {
   licenseNumber: string;
   currentRanking: number;
 }
+
+export type TournamentDto = Omit<
+  Tournament,
+  'organizer' | 'registrationDeadline' | 'startTime' | 'createdAt' | 'updatedAt'
+> & {
+  registrationDeadline: string;
+  startTime: string;
+  organizer: UserBasicDto;
+  updatedAt: string;
+  createdAt: string;
+};
+
+export type PageResponse<T> = {
+  data: T[];
+  limit: number;
+  page: number;
+  total: number;
+};
