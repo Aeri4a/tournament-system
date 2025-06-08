@@ -40,7 +40,6 @@ const LoginPage = () => {
     };
     loginMutation.mutate(credentials, {
       onSuccess: () => {
-        console.log('test');
         navigation({ to: '/', replace: true });
       },
     });
