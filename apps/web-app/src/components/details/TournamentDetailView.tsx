@@ -27,17 +27,31 @@ const TournamentDetailView = () => {
           Manage
         </IconButton>
       </Flex>
-      <TournamentDetailBanner />
+      <TournamentDetailBanner
+        name={data?.name ?? ''}
+        sponsorLogos={data?.sponsorLogos ?? []}
+      />
       <Grid
         templateColumns={{ base: '1fr', lg: '2fr 1fr' }}
         gap={8}
         alignItems="start"
       >
         <GridItem>
-          <TournamentDetailContentArea />
+          <TournamentDetailContentArea
+            locationAddress={data?.locationAddress ?? ''}
+            startTime={data?.startTime ?? new Date().toString()}
+            registrationDeadline={
+              data?.registrationDeadline ?? new Date().toString()
+            }
+            participants={data?.participants ?? []}
+          />
         </GridItem>
         <GridItem>
-          <TournamentDetailSidebar />
+          <TournamentDetailSidebar
+            organizer={data?.organizer ?? { firstName: '', lastName: '' }}
+            participants={data?.participants ?? []}
+            maxParticipants={data?.maxParticipants ?? 0}
+          />
         </GridItem>
       </Grid>
     </Flex>

@@ -1,3 +1,4 @@
+import { formatDate } from '@/utils/dataFormatter';
 import {
   Card,
   Flex,
@@ -83,8 +84,8 @@ const TournamentCard: React.FC<TournamentCardProps> = ({
           <Card.Footer bg="colorPalette.panel" p="4" borderTop="1px solid">
             <Flex align="center" width="100%">
               <Box>
-                <Text fontWeight="bold">Deadline</Text>
-                <Text fontSize="sm">{deadline}</Text>
+                <Text fontWeight="bold">Participate deadline</Text>
+                <Text fontSize="sm">{formatDate(deadline)}</Text>
               </Box>
               <Spacer />
               {onJoin && (

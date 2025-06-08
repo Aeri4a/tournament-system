@@ -58,17 +58,19 @@ What happens after deadline is gone
 
 Must
 
-- [] Details view
-- [] Fix scrolling inside in views
+- [x] Details view
 - [] Create tournament modal
 - [] Edit tournament modal
+- [] Apply for tournament handle
+- [] Add toasts
 - [] Backend: add cron for tournament start
 - [] Think about ladder organization (??)
-- [] Add toasts
-
-Additional
-
-- [] Participants number add to dto to tournament cards
 - [] Account manage views (before login) - register & password reset & activation
+
+Additional or not important
+
+- [] Handle not found in details
+- [] Fix scrolling inside in views
 - [] Themes fix complete
 - [] Returned dto (mainly user)
+- [] Handle isLoading in details with blanks from chakra ui

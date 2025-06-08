@@ -1,6 +1,21 @@
+import { formatDate } from '@/utils/dataFormatter';
 import { Box, Flex, Tabs, VStack, Text, Heading } from '@chakra-ui/react';
+import { UserBasicDto } from 'common';
+import { FC } from 'react';
 
-const TournamentDetailContentArea = () => (
+interface TournamentDetailContentAreaProps {
+  registrationDeadline: string;
+  startTime: string;
+  locationAddress: string;
+  participants: UserBasicDto[];
+}
+
+const TournamentDetailContentArea: FC<TournamentDetailContentAreaProps> = ({
+  registrationDeadline,
+  startTime,
+  locationAddress,
+  participants,
+}) => (
   <Box>
     <Tabs.Root variant="enclosed" defaultValue={'Overview'}>
       <Tabs.List>
@@ -28,11 +43,11 @@ const TournamentDetailContentArea = () => (
           >
             <VStack>
               <Text color="red.400">● Deadline</Text>
-              <Text fontSize="sm">2025-01-01 17:30</Text>
+              <Text fontSize="sm">{formatDate(registrationDeadline)}</Text>
             </VStack>
             <VStack>
               <Text color="green.400">● Start</Text>
-              <Text fontSize="sm">2025-01-01 17:30</Text>
+              <Text fontSize="sm">{formatDate(startTime)}</Text>
             </VStack>
           </Flex>
 
@@ -46,7 +61,7 @@ const TournamentDetailContentArea = () => (
         </VStack>
       </Tabs.Content>
       <Tabs.Content value="Location">
-        <Text>Location content goes here.</Text>
+        <Text>{locationAddress}</Text>
       </Tabs.Content>
       <Tabs.Content value="Players">
         <Text>Players content goes here.</Text>

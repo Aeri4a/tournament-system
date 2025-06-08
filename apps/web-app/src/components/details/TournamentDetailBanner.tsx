@@ -9,6 +9,7 @@ import {
   AspectRatio,
   Spacer,
 } from '@chakra-ui/react';
+import { FC } from 'react';
 
 const SponsorLogo = ({ logoUrl }: { logoUrl: string }) => (
   <AspectRatio ratio={1} w="50px">
@@ -21,7 +22,15 @@ const SponsorLogo = ({ logoUrl }: { logoUrl: string }) => (
   </AspectRatio>
 );
 
-const TournamentDetailBanner = () => (
+interface TournamentDetailBannerProps {
+  name: string;
+  sponsorLogos: string[];
+}
+
+const TournamentDetailBanner: FC<TournamentDetailBannerProps> = ({
+  name,
+  sponsorLogos,
+}) => (
   <Box
     borderRadius="lg"
     p={6}
@@ -51,19 +60,20 @@ const TournamentDetailBanner = () => (
             Tournament
           </Text>
           <Heading as="h1" size="4xl">
-            Victory Cup 2025
+            {name}
           </Heading>
         </Box>
-        <Box>
-          <HStack>
-            <SponsorLogo logoUrl="https://ankiety.put.poznan.pl/images/logo.png" />
-            <SponsorLogo logoUrl="https://ankiety.put.poznan.pl/images/logo.png" />
-            <SponsorLogo logoUrl="https://ankiety.put.poznan.pl/images/logo.png" />
-            <SponsorLogo logoUrl="https://ankiety.put.poznan.pl/images/logo.png" />
-          </HStack>
-          <Spacer />
-          <Text pt={2}>Sponsors</Text>
-        </Box>
+        {sponsorLogos.length !== 0 && (
+          <Box>
+            <HStack>
+              {sponsorLogos.map((url) => (
+                <SponsorLogo logoUrl={url} key={url} />
+              ))}
+            </HStack>
+            <Spacer />
+            <Text pt={2}>Sponsors</Text>
+          </Box>
+        )}
       </VStack>
     </Flex>
   </Box>

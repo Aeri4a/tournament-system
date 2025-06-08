@@ -53,6 +53,7 @@ export type TournamentDto = Omit<
   registrationDeadline: string;
   startTime: string;
   organizer: UserBasicDto;
+  participants: UserBasicDto[];
   updatedAt: string;
   createdAt: string;
 };
