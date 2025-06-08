@@ -55,11 +55,20 @@ What happens after deadline is gone
 - [x] Apply user authentication on backend
 - [x] Apply user authentication on frontend
 - [x] Initialize views & startup db models
+
+Must
+
+- [] Details view
+- [] Fix scrolling inside in views
+- [] Create tournament modal
+- [] Edit tournament modal
 - [] Backend: add cron for tournament start
 - [] Think about ladder organization (??)
+- [] Add toasts
+
+Additional
 
 - [] Participants number add to dto to tournament cards
 - [] Account manage views (before login) - register & password reset & activation
-- [] Themes fix
-- [] Add toasts
+- [] Themes fix complete
 - [] Returned dto (mainly user)

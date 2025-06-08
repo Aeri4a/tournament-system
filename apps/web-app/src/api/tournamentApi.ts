@@ -38,3 +38,9 @@ export const fetchRegisteredInTournaments = async (
 
   return data;
 };
+
+export const fetchTournamentById = async (id: string) => {
+  const { data } = await axios.get<TournamentDto>(`${API_PATH}/${id}`);
+
+  return data;
+};
