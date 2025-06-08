@@ -57,6 +57,8 @@ What happens after deadline is gone
 - [x] Initialize views & startup db models
 - [] Backend: add cron for tournament start
 - [] Think about ladder organization (??)
+
+- [] Participants number add to dto to tournament cards
 - [] Account manage views (before login) - register & password reset & activation
 - [] Themes fix
 - [] Add toasts

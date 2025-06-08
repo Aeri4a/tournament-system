@@ -70,26 +70,17 @@ const TournamentCard: React.FC<TournamentCardProps> = ({
                 <Heading size="md" mb="1">
                   {organizerName}
                 </Heading>
-                <Text fontSize="sm" color="gray.600">
-                  Organizer
-                </Text>
+                <Text fontSize="sm">Organizer</Text>
               </Box>
               <Box textAlign={{ base: 'left', md: 'right' }}>
                 <Heading size="md" mb="1">
                   {currentParticipants} / {maxParticipants}
                 </Heading>
-                <Text fontSize="sm" color="gray.600">
-                  Participants
-                </Text>
+                <Text fontSize="sm">Participants</Text>
               </Box>
             </Flex>
           </Card.Body>
-          <Card.Footer
-            bg="gray.100"
-            p="4"
-            borderTop="1px solid"
-            borderColor="gray.200"
-          >
+          <Card.Footer bg="colorPalette.panel" p="4" borderTop="1px solid">
             <Flex align="center" width="100%">
               <Box>
                 <Text fontWeight="bold">Deadline</Text>
