@@ -7,6 +7,7 @@ import {
   Heading,
   Text,
   Field,
+  IconButton,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,6 +15,7 @@ import { useLoginMutation } from '../api/authApi';
 import { LoginFormInputs, loginSchema } from '@/zod/loginSchema';
 import { UserLoginDto } from 'common';
 import { useNavigate } from '@tanstack/react-router';
+import { LuArrowLeft } from 'react-icons/lu';
 
 const LoginPage = () => {
   const {
@@ -45,6 +47,12 @@ const LoginPage = () => {
     });
   };
 
+  const handleHomeNavigation = () => {
+    navigation({
+      to: '/',
+    });
+  };
+
   return (
     <Box minH="100vh" position="relative">
       <Flex minH="100vh" alignItems="center" justifyContent="center" p={4}>
@@ -56,10 +64,18 @@ const LoginPage = () => {
         >
           <Flex direction={{ base: 'column', md: 'row' }}>
             <Box flex={{ base: 'none', md: 2 }}>
-              <Box>Back to Home</Box>
               {/* TODO: Spacing & styling */}
               <Heading>PingPong Challenge</Heading>
               <Text>Your perfect tournament system</Text>
+              <IconButton
+                variant={'surface'}
+                onClick={handleHomeNavigation}
+                mt={5}
+                p={2}
+              >
+                <LuArrowLeft />
+                Back to Home
+              </IconButton>
             </Box>
 
             <VStack
