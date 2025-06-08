@@ -21,26 +21,27 @@ const MenuItem: FC<MenuItemProps> = ({
   item: { Icon, label, path },
   isActive,
 }) => (
-  <Flex
-    gap={5}
-    alignItems={'center'}
-    cursor={'pointer'}
-    pr={10}
-    py={3}
-    transition={'0.2s'}
-    className={'group'}
-  >
-    <Box
-      bg={isActive ? 'colorPalette.400' : 'transparent'}
-      p={4}
-      borderTopRightRadius={'md'}
-      borderBottomRightRadius={'md'}
-      _groupHover={{ bg: 'colorPalette.300' }}
+  <Link to={path}>
+    <Flex
+      gap={5}
+      alignItems={'center'}
+      cursor={'pointer'}
+      pr={10}
+      py={3}
       transition={'0.2s'}
+      className={'group'}
     >
-      <Icon />
-    </Box>
-    <Link to={path}>
+      <Box
+        bg={isActive ? 'colorPalette.400' : 'transparent'}
+        p={4}
+        borderTopRightRadius={'md'}
+        borderBottomRightRadius={'md'}
+        _groupHover={{ bg: 'colorPalette.300' }}
+        transition={'0.2s'}
+      >
+        <Icon />
+      </Box>
+
       <Text
         textDecoration={isActive ? 'underline' : 'none'}
         textUnderlineOffset={isActive ? 10 : 0}
@@ -48,8 +49,8 @@ const MenuItem: FC<MenuItemProps> = ({
       >
         {label}
       </Text>
-    </Link>
-  </Flex>
+    </Flex>
+  </Link>
 );
 
 const MENU_ITEMS: MenuItem[] = [
