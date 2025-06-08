@@ -20,3 +20,11 @@ export const fetchUpcomingTournaments = async (query: QueryTournamentDto) => {
 
   return data;
 };
+
+export const fetchOrganizedTournaments = async (query: QueryTournamentDto) => {
+  const { data } = await axios.get<PageResponse<TournamentDto>>(
+    buildQueryPath(`${API_PATH}/organized`, query),
+  );
+
+  return data;
+};
