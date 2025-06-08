@@ -136,10 +136,17 @@ export class TournamentService {
 
   async findByIdWithMap(id: number) {
     const tournament = await this.findOneById(id);
+    const participants = await this.registrationRepository.find({
+      where: {
+        tournamentId: tournament.id,
+      },
+      relations: ['user'],
+    });
 
     return {
       ...tournament,
       organizer: this.mapToBasicUserDto(tournament.organizer),
+      participants: participants.map((reg) => this.mapToBasicUserDto(reg.user)),
     };
   }
 
