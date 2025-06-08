@@ -37,6 +37,32 @@ export const useLoginMutation = (): UseMutationResult<
   });
 };
 
+const logoutUser = async (): Promise<void> => {
+  await axios.post(`${API_PATH}/logout`);
+};
+
+export const useLogoutMutation = (): UseMutationResult<
+  void,
+  AxiosError<{ message?: string }>,
+  void
+> => {
+  const { logout } = useAuthStore();
+
+  return useMutation<void, AxiosError<{ message?: string }>, void>({
+    mutationFn: logoutUser,
+    onSuccess: () => {
+      logout();
+      console.log('Logout successful');
+    },
+    onError: (error) => {
+      console.error(
+        'Logout failed:',
+        error.response?.data?.message || error.message,
+      );
+    },
+  });
+};
+
 const checkSession = async (): Promise<User> => {
   const { data } = await axios.get<User>(`${API_PATH}`);
   return data;

@@ -3,10 +3,22 @@ import { Box, Button, Flex, Separator, Text } from '@chakra-ui/react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { ColorModeButton } from '../ui/color-mode';
 import { GiPingPongBat } from 'react-icons/gi';
+import { useLogoutMutation } from '@/api/authApi';
 
 const UpperBar = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
+  const logoutMutation = useLogoutMutation();
+
+  const handleLogout = () => {
+    logoutMutation.mutate(undefined, {
+      onSuccess: () => {
+        navigate({
+          to: '/login',
+        });
+      },
+    });
+  };
 
   return (
     <Flex
@@ -32,7 +44,10 @@ const UpperBar = () => {
       <Flex alignItems={'center'} gap={4}>
         <Box>
           {isAuthenticated ? (
-            <Box>Avatar</Box>
+            <Flex direction={'row'} gap={5} alignItems={'center'}>
+              <Box>{user?.email}</Box>
+              <Button onClick={handleLogout}>Logout</Button>
+            </Flex>
           ) : (
             <Button
               onClick={() => {
