@@ -42,11 +42,11 @@ const TournamentDetailContentArea: FC<TournamentDetailContentAreaProps> = ({
             borderRadius="md"
           >
             <VStack>
-              <Text color="red.400">● Deadline</Text>
+              <Text color="red.400">● Registration deadline</Text>
               <Text fontSize="sm">{formatDate(registrationDeadline)}</Text>
             </VStack>
             <VStack>
-              <Text color="green.400">● Start</Text>
+              <Text color="green.400">● Start date</Text>
               <Text fontSize="sm">{formatDate(startTime)}</Text>
             </VStack>
           </Flex>

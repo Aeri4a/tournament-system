@@ -49,7 +49,7 @@ const TournamentCard: React.FC<TournamentCardProps> = ({
       maxW="lg"
       borderRadius="lg"
       boxShadow="md"
-      minWidth={300}
+      minWidth={400} // TODO: fix flexible view
     >
       <Flex>
         <Flex direction="column" flex="6" p="0">

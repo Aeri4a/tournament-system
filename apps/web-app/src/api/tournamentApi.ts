@@ -6,6 +6,7 @@ import {
   PageResponse,
   QueryTournamentDto,
   TournamentDto,
+  UpdateTournamentDto,
 } from 'common';
 
 const API_PATH = 'http://localhost:3000/api/tournaments';
@@ -68,5 +69,27 @@ export const useCreateTourMutation = (): UseMutationResult<
     CreateTournamentDto
   >({
     mutationFn: createTournament,
+  });
+};
+
+export const updateTournament = async (tournament: UpdateTournamentDto) => {
+  const { data } = await axios.patch<TournamentDto>(
+    `${API_PATH}/${tournament.id}`,
+    tournament,
+  );
+  return data;
+};
+
+export const useUpdateTourMutation = (): UseMutationResult<
+  TournamentDto,
+  AxiosError<{ message?: string }>,
+  UpdateTournamentDto
+> => {
+  return useMutation<
+    TournamentDto,
+    AxiosError<{ message?: string }>,
+    UpdateTournamentDto
+  >({
+    mutationFn: updateTournament,
   });
 };

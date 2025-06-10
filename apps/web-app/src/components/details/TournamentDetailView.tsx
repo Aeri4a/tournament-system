@@ -4,7 +4,7 @@ import {
   GridItem,
   Heading,
   IconButton,
-  VStack,
+  useDisclosure,
 } from '@chakra-ui/react';
 import TournamentDetailBanner from './TournamentDetailBanner';
 import TournamentDetailContentArea from './TournamentDetailContentArea';
@@ -15,8 +15,13 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchTournamentById } from '@/api/tournamentApi';
 import { TournamentDto } from 'common';
 import { useRouter } from '@tanstack/react-router';
+import TournamentManageDialog from './TournamentManageDialog';
+import { useAuthStore } from '@/store/authStore';
 
 const TournamentDetailView = () => {
+  const { open, onOpen, onClose } = useDisclosure();
+  const { user } = useAuthStore();
+
   const router = useRouter();
   const { tournamentId } = Route.useParams();
 
@@ -29,8 +34,22 @@ const TournamentDetailView = () => {
     router.history.back();
   };
 
+  const isOrganizer = data?.organizerId === user?.id;
+
   return (
     <Flex direction={'column'}>
+      {isOrganizer && data && (
+        <TournamentManageDialog
+          open={open}
+          onClose={onClose}
+          id={+tournamentId}
+          name={data ? data.name : ''}
+          location={data ? data.locationAddress : ''}
+          deadline={data ? data.registrationDeadline : ''}
+          time={data ? data.startTime : ''}
+          maxParticipants={data ? data.maxParticipants : 16}
+        />
+      )}
       <Flex alignContent={'center'} justifyContent={'space-between'} pb={10}>
         <IconButton p={3} variant={'outline'} onClick={handleBackButton}>
           <LuArrowLeft /> Back to previous
@@ -38,10 +57,12 @@ const TournamentDetailView = () => {
         <Heading as="h2" size="xl">
           Overview
         </Heading>
-        <IconButton width={200}>
-          <LuPen />
-          Manage
-        </IconButton>
+        {isOrganizer && (
+          <IconButton width={200} onClick={onOpen} size="lg" p={3}>
+            <LuPen />
+            Manage
+          </IconButton>
+        )}
       </Flex>
       <TournamentDetailBanner
         name={data?.name ?? ''}

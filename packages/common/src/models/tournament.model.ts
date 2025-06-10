@@ -33,6 +33,7 @@ export interface CreateTournamentDto {
 }
 
 export interface UpdateTournamentDto {
+  id: number;
   name?: string;
   startTime?: string;
   registrationDeadline?: string;

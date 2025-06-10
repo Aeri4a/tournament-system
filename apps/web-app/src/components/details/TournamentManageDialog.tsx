@@ -7,20 +7,37 @@ import {
   CloseButton,
   Dialog,
   Field,
-  IconButton,
   Input,
-  useDisclosure,
   VStack,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useCreateTourMutation } from '@/api/tournamentApi';
-import { CreateTournamentDto } from 'common';
+import { UpdateTournamentDto } from 'common';
 import { useQueryClient } from '@tanstack/react-query';
-import { LuPlus } from 'react-icons/lu';
+import { FC } from 'react';
+import { useUpdateTourMutation } from '@/api/tournamentApi';
 
-const OrganizeDialog = () => {
-  const { open, onOpen, onClose } = useDisclosure();
+interface TournamentManageDialogProps {
+  open: boolean;
+  onClose: () => void;
+  name: string;
+  location: string;
+  time: string;
+  deadline: string;
+  maxParticipants: number;
+  id: number;
+}
+
+const TournamentManageDialog: FC<TournamentManageDialogProps> = ({
+  open,
+  onClose,
+  name,
+  location,
+  time,
+  deadline,
+  maxParticipants,
+  id,
+}) => {
   const queryClient = useQueryClient();
 
   const {
@@ -31,17 +48,17 @@ const OrganizeDialog = () => {
   } = useForm<TournamentFormData>({
     resolver: zodResolver(createTournamentSchema),
     defaultValues: {
-      name: '',
-      location: '',
-      time: '',
-      deadline: '',
-      maxParticipants: 16,
+      name,
+      location,
+      time,
+      deadline,
+      maxParticipants,
       sponsorLogos: '',
     },
     mode: 'onTouched',
   });
 
-  const createTourMutation = useCreateTourMutation();
+  const updateTourMutation = useUpdateTourMutation();
 
   const handleClose = () => {
     reset();
@@ -49,7 +66,8 @@ const OrganizeDialog = () => {
   };
 
   const onSubmit = (data: TournamentFormData) => {
-    const newTournament: CreateTournamentDto = {
+    const updatedTournament: UpdateTournamentDto = {
+      id,
       locationAddress: data.location,
       maxParticipants: data.maxParticipants,
       name: data.name,
@@ -58,12 +76,12 @@ const OrganizeDialog = () => {
     };
 
     if (data.sponsorLogos && data.sponsorLogos.length > 0) {
-      newTournament.sponsorLogoUrls = data.sponsorLogos.split(',');
+      updatedTournament.sponsorLogoUrls = data.sponsorLogos.split(',');
     }
 
-    createTourMutation.mutate(newTournament, {
+    updateTourMutation.mutate(updatedTournament, {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['organizedTournaments'] });
+        queryClient.invalidateQueries({ queryKey: ['tournamentDetails'] });
         handleClose();
         // TODO: tost here
         console.log('created successfully tournament');
@@ -73,11 +91,6 @@ const OrganizeDialog = () => {
 
   return (
     <>
-      <IconButton onClick={onOpen} colorScheme="teal" size="lg" p={3}>
-        <LuPlus />
-        Create new
-      </IconButton>
-
       <Dialog.Root size={'lg'} open={open}>
         <Dialog.Trigger />
         <Dialog.Backdrop />
@@ -85,13 +98,13 @@ const OrganizeDialog = () => {
           <Dialog.Content>
             <Dialog.CloseTrigger />
             <Dialog.Header>
-              <Dialog.Title>Organize new tournament</Dialog.Title>
+              <Dialog.Title>Edit</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
               <VStack
                 onSubmit={handleSubmit(onSubmit)}
                 as="form"
-                id="organize-tournament"
+                id="update-tournament"
               >
                 <Field.Root invalid={!!errors.name}>
                   <Field.Label>Name</Field.Label>
@@ -178,10 +191,10 @@ const OrganizeDialog = () => {
               <Dialog.ActionTrigger asChild>
                 <Button
                   type="submit"
-                  form="organize-tournament"
+                  form="update-tournament"
                   loading={isSubmitting}
                 >
-                  Create
+                  Save
                 </Button>
               </Dialog.ActionTrigger>
             </Dialog.Footer>
@@ -195,4 +208,4 @@ const OrganizeDialog = () => {
   );
 };
 
-export default OrganizeDialog;
+export default TournamentManageDialog;
