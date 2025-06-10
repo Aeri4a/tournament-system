@@ -11,6 +11,7 @@ import {
   AspectRatio,
   Image,
 } from '@chakra-ui/react';
+import { useNavigate } from '@tanstack/react-router';
 
 interface TournamentCardProps {
   bannerImageUrl?: string;
@@ -21,9 +22,11 @@ interface TournamentCardProps {
   deadline: string;
   onJoin?: () => void;
   sponsorLogos?: string[];
+  id: number;
 }
 
 const TournamentCard: React.FC<TournamentCardProps> = ({
+  id,
   bannerImageUrl,
   tournamentName,
   organizerName,
@@ -33,14 +36,20 @@ const TournamentCard: React.FC<TournamentCardProps> = ({
   onJoin,
   sponsorLogos,
 }) => {
+  const navigate = useNavigate();
+
+  const navigateToDetailPage = () => {
+    navigate({ to: `/app/details/${id}` });
+  };
+
   return (
     <Card.Root
       overflow="hidden"
       variant="outline"
-      width="100%"
       maxW="lg"
       borderRadius="lg"
       boxShadow="md"
+      minWidth={300}
     >
       <Flex>
         <Flex direction="column" flex="6" p="0">
@@ -53,6 +62,8 @@ const TournamentCard: React.FC<TournamentCardProps> = ({
             alignItems="flex-start"
             justifyContent="flex-start"
             p="4"
+            cursor={'pointer'}
+            onClick={navigateToDetailPage}
           >
             <Heading
               size="lg"

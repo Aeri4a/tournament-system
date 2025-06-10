@@ -1,5 +1,12 @@
 import axios from '@/config/axiosConfig';
-import { PageResponse, QueryTournamentDto, TournamentDto } from 'common';
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import {
+  CreateTournamentDto,
+  PageResponse,
+  QueryTournamentDto,
+  TournamentDto,
+} from 'common';
 
 const API_PATH = 'http://localhost:3000/api/tournaments';
 
@@ -43,4 +50,23 @@ export const fetchTournamentById = async (id: string) => {
   const { data } = await axios.get<TournamentDto>(`${API_PATH}/${id}`);
 
   return data;
+};
+
+export const createTournament = async (tournament: CreateTournamentDto) => {
+  const { data } = await axios.post<TournamentDto>(`${API_PATH}`, tournament);
+  return data;
+};
+
+export const useCreateTourMutation = (): UseMutationResult<
+  TournamentDto,
+  AxiosError<{ message?: string }>,
+  CreateTournamentDto
+> => {
+  return useMutation<
+    TournamentDto,
+    AxiosError<{ message?: string }>,
+    CreateTournamentDto
+  >({
+    mutationFn: createTournament,
+  });
 };

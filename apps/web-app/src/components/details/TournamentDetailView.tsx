@@ -1,14 +1,23 @@
-import { Flex, Grid, GridItem, Heading, IconButton } from '@chakra-ui/react';
+import {
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  IconButton,
+  VStack,
+} from '@chakra-ui/react';
 import TournamentDetailBanner from './TournamentDetailBanner';
 import TournamentDetailContentArea from './TournamentDetailContentArea';
 import TournamentDetailSidebar from './TournamentDetailSidebar';
-import { LuPen } from 'react-icons/lu';
+import { LuArrowLeft, LuPen } from 'react-icons/lu';
 import { Route } from '@/routes/app/_layout/details.$tournamentId';
 import { useQuery } from '@tanstack/react-query';
 import { fetchTournamentById } from '@/api/tournamentApi';
 import { TournamentDto } from 'common';
+import { useRouter } from '@tanstack/react-router';
 
 const TournamentDetailView = () => {
+  const router = useRouter();
   const { tournamentId } = Route.useParams();
 
   const { data } = useQuery<TournamentDto, Error>({
@@ -16,10 +25,17 @@ const TournamentDetailView = () => {
     queryFn: () => fetchTournamentById(tournamentId),
   });
 
+  const handleBackButton = () => {
+    router.history.back();
+  };
+
   return (
     <Flex direction={'column'}>
-      <Flex alignContent={'center'} justifyContent={'space-between'}>
-        <Heading as="h2" size="xl" mb={6}>
+      <Flex alignContent={'center'} justifyContent={'space-between'} pb={10}>
+        <IconButton p={3} variant={'outline'} onClick={handleBackButton}>
+          <LuArrowLeft /> Back to previous
+        </IconButton>
+        <Heading as="h2" size="xl">
           Overview
         </Heading>
         <IconButton width={200}>
@@ -29,7 +45,7 @@ const TournamentDetailView = () => {
       </Flex>
       <TournamentDetailBanner
         name={data?.name ?? ''}
-        sponsorLogos={data?.sponsorLogos ?? []}
+        sponsorLogos={data?.sponsorLogoUrls ?? []}
       />
       <Grid
         templateColumns={{ base: '1fr', lg: '2fr 1fr' }}

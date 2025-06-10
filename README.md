@@ -59,9 +59,10 @@ What happens after deadline is gone
 Must
 
 - [x] Details view
-- [] Create tournament modal
+- [x] Create tournament modal
 - [] Edit tournament modal
 - [] Apply for tournament handle
+- [] Google maps in details
 - [] Add toasts
 - [] Backend: add cron for tournament start
 - [] Think about ladder organization (??)

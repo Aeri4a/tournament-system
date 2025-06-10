@@ -114,17 +114,18 @@ const ParticipatedView = () => {
           <Spinner />
         </Flex>
       )}
-      <Flex py={6} gap={10}>
+      <Flex py={6} gap={10} flexWrap={'wrap'}>
         {tournaments.length > 0 ? (
           tournaments.map((tour) => (
             <TournamentCard
               key={tour.id}
+              id={tour.id}
               currentParticipants={0}
               maxParticipants={tour.maxParticipants}
               organizerName={`${tour.organizer.firstName} ${tour.organizer.lastName}`}
               deadline={tour.registrationDeadline}
               tournamentName={tour.name}
-              sponsorLogos={tour.sponsorLogos}
+              sponsorLogos={tour.sponsorLogoUrls}
             />
           ))
         ) : (

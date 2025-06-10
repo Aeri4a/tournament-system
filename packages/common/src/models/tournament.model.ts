@@ -9,7 +9,7 @@ export interface Tournament {
   registrationDeadline: Date;
   locationAddress: string;
   maxParticipants: number;
-  sponsorLogos: string[];
+  sponsorLogoUrls: string[];
   organizerId: string;
   organizer: User;
   createdAt: Date;

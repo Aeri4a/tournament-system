@@ -16,6 +16,7 @@ import { PageResponse, TournamentDto } from 'common';
 import { fetchOrganizedTournaments } from '@/api/tournamentApi';
 import { useDebounce } from 'use-debounce';
 import { useState } from 'react';
+import OrganizeDialog from './OrganizeDialog';
 
 const OrganizedView = () => {
   const navigate = useNavigate();
@@ -73,34 +74,36 @@ const OrganizedView = () => {
             onChange={(e) => handleSearch(e.target.value)}
           />
         </InputGroup>
-        <Pagination.Root
-          count={totalPages}
-          pageSize={pageSize}
-          page={pageNumber}
-          onPageChange={(e) => setPage(e.page)}
-        >
-          <ButtonGroup variant="outline" size="sm">
-            <Pagination.PrevTrigger asChild>
-              <IconButton>
-                <LuChevronLeft />
-              </IconButton>
-            </Pagination.PrevTrigger>
-
-            <Pagination.Items
-              render={(page) => (
-                <IconButton variant={{ base: 'ghost', _selected: 'outline' }}>
-                  {page.value}
+        <Flex alignItems={'center'} gap={5}>
+          <OrganizeDialog />
+          <Pagination.Root
+            count={totalPages}
+            pageSize={pageSize}
+            page={pageNumber}
+            onPageChange={(e) => setPage(e.page)}
+          >
+            <ButtonGroup variant="outline" size="sm">
+              <Pagination.PrevTrigger asChild>
+                <IconButton>
+                  <LuChevronLeft />
                 </IconButton>
-              )}
-            />
+              </Pagination.PrevTrigger>
 
-            <Pagination.NextTrigger asChild>
-              <IconButton>
-                <LuChevronRight />
-              </IconButton>
-            </Pagination.NextTrigger>
-          </ButtonGroup>
-        </Pagination.Root>
+              <Pagination.Items
+                render={(page) => (
+                  <IconButton variant={{ base: 'ghost', _selected: 'outline' }}>
+                    {page.value}
+                  </IconButton>
+                )}
+              />
+              <Pagination.NextTrigger asChild>
+                <IconButton>
+                  <LuChevronRight />
+                </IconButton>
+              </Pagination.NextTrigger>
+            </ButtonGroup>
+          </Pagination.Root>
+        </Flex>
       </Flex>
 
       <Separator />
@@ -109,17 +112,18 @@ const OrganizedView = () => {
           <Spinner />
         </Flex>
       )}
-      <Flex py={6} gap={10}>
+      <Flex py={6} gap={10} flexWrap={'wrap'}>
         {tournaments.length > 0 ? (
           tournaments.map((tour) => (
             <TournamentCard
               key={tour.id}
+              id={tour.id}
               currentParticipants={0}
               maxParticipants={tour.maxParticipants}
               organizerName={`${tour.organizer.firstName} ${tour.organizer.lastName}`}
               deadline={tour.registrationDeadline}
               tournamentName={tour.name}
-              sponsorLogos={tour.sponsorLogos}
+              sponsorLogos={tour.sponsorLogoUrls}
             />
           ))
         ) : (
