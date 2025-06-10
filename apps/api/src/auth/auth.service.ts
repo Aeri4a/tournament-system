@@ -94,7 +94,7 @@ export class AuthService {
     const user = await this.userService.getByEmail(email);
 
     if (!user) {
-      throw new BadRequestException();
+      throw new BadRequestException('User with this email does not exist.');
     }
 
     if (!user.isActive) {

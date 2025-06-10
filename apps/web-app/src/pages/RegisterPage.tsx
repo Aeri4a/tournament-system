@@ -8,40 +8,44 @@ import {
   Text,
   Field,
   IconButton,
-  Link,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useLoginMutation } from '../api/authApi';
-import { LoginFormInputs, loginSchema } from '@/zod/loginSchema';
-import { UserLoginDto } from 'common';
+import { useRegisterMutation } from '../api/authApi';
+import { RegisterUserDto } from 'common';
 import { useNavigate } from '@tanstack/react-router';
 import { LuArrowLeft } from 'react-icons/lu';
+import { RegisterFormInputs, registerSchema } from '@/zod/registerSchema';
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting: isFormSubmitting },
-  } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<RegisterFormInputs>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       email: '',
       password: '',
+      confirmPassword: '',
+      firstName: '',
+      lastName: '',
     },
     mode: 'onTouched',
   });
 
   const navigation = useNavigate();
 
-  const loginMutation = useLoginMutation();
+  const registerMutation = useRegisterMutation();
 
-  const onSubmit = (data: LoginFormInputs) => {
-    const credentials: UserLoginDto = {
+  const onSubmit = (data: RegisterFormInputs) => {
+    const credentials: RegisterUserDto = {
       email: data.email,
       password: data.password,
+      firstName: data.firstName,
+      lastName: data.lastName,
     };
-    loginMutation.mutate(credentials, {
+    registerMutation.mutate(credentials, {
       onSuccess: () => {
         navigation({ to: '/', replace: true });
       },
@@ -90,6 +94,36 @@ const LoginPage = () => {
               pl={{ sm: 0, md: 10, lg: 10 }}
               pt={{ sm: 5, lg: 0, md: 0 }}
             >
+              <Field.Root invalid={!!errors.firstName}>
+                <Input
+                  id="firstname"
+                  placeholder="First name"
+                  type="text"
+                  bg="white"
+                  borderColor="gray.400"
+                  color="gray.800"
+                  size="lg"
+                  _placeholder={{ color: 'gray.500' }}
+                  {...register('firstName')}
+                />
+                <Field.ErrorText>{errors.firstName?.message}</Field.ErrorText>
+              </Field.Root>
+
+              <Field.Root invalid={!!errors.lastName}>
+                <Input
+                  id="lastname"
+                  placeholder="Last name"
+                  type="text"
+                  bg="white"
+                  borderColor="gray.400"
+                  color="gray.800"
+                  size="lg"
+                  _placeholder={{ color: 'gray.500' }}
+                  {...register('lastName')}
+                />
+                <Field.ErrorText>{errors.lastName?.message}</Field.ErrorText>
+              </Field.Root>
+
               <Field.Root invalid={!!errors.email}>
                 <Input
                   id="email"
@@ -120,11 +154,22 @@ const LoginPage = () => {
                 <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
               </Field.Root>
 
-              <Link href="/forgot-password">
-                <Text color="blue.500" textAlign="center" mt={2} fontSize="xs">
-                  Forgot your password? Reset it here
-                </Text>
-              </Link>
+              <Field.Root invalid={!!errors.confirmPassword}>
+                <Input
+                  id="confirmPassword"
+                  placeholder="Confirm Password"
+                  type="password"
+                  bg="white"
+                  borderColor="gray.400"
+                  color="gray.800"
+                  size="lg"
+                  _placeholder={{ color: 'gray.500' }}
+                  {...register('confirmPassword')}
+                />
+                <Field.ErrorText>
+                  {errors.confirmPassword?.message}
+                </Field.ErrorText>
+              </Field.Root>
 
               <Button
                 size="lg"
@@ -133,16 +178,8 @@ const LoginPage = () => {
                 type="submit"
                 loading={isFormSubmitting}
               >
-                Login
+                Register
               </Button>
-
-              <Box mt={4} textAlign="center">
-                <Link href="/register">
-                  <Text color="blue.500" textAlign="center" mt={2}>
-                    Not a member? Sign up here
-                  </Text>
-                </Link>
-              </Box>
             </VStack>
           </Flex>
         </Box>
@@ -151,4 +188,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

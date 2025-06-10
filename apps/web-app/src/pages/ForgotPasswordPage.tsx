@@ -12,38 +12,47 @@ import {
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useLoginMutation } from '../api/authApi';
-import { LoginFormInputs, loginSchema } from '@/zod/loginSchema';
-import { UserLoginDto } from 'common';
+import { useRequestPasswordResetMutation } from '../api/authApi';
+import { RequestPasswordDto } from 'common';
 import { useNavigate } from '@tanstack/react-router';
 import { LuArrowLeft } from 'react-icons/lu';
+import { requestPasswordResetSchema } from '@/zod/requestPasswordSchema';
+import { useEffect, useState } from 'react';
 
-const LoginPage = () => {
+const ForgotPasswordPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting: isFormSubmitting },
-  } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<RequestPasswordDto>({
+    resolver: zodResolver(requestPasswordResetSchema),
     defaultValues: {
       email: '',
-      password: '',
     },
     mode: 'onTouched',
   });
 
   const navigation = useNavigate();
+  const [dbError, setDbError] = useState('');
 
-  const loginMutation = useLoginMutation();
+  useEffect(() => {}, [dbError]);
 
-  const onSubmit = (data: LoginFormInputs) => {
-    const credentials: UserLoginDto = {
+  console.log(dbError);
+
+  const requestPasswordResetMutation = useRequestPasswordResetMutation();
+
+  const onSubmit = (data: RequestPasswordDto) => {
+    const credentials: RequestPasswordDto = {
       email: data.email,
-      password: data.password,
     };
-    loginMutation.mutate(credentials, {
+    requestPasswordResetMutation.mutate(credentials, {
       onSuccess: () => {
         navigation({ to: '/', replace: true });
+        setDbError('');
+      },
+      onError: (error) => {
+        console.log(error);
+        setDbError(error.response?.data?.message || error.message);
       },
     });
   };
@@ -105,26 +114,11 @@ const LoginPage = () => {
                 <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
               </Field.Root>
 
-              <Field.Root invalid={!!errors.password}>
-                <Input
-                  id="password"
-                  placeholder="Password"
-                  type="password"
-                  bg="white"
-                  borderColor="gray.400"
-                  color="gray.800"
-                  size="lg"
-                  _placeholder={{ color: 'gray.500' }}
-                  {...register('password')}
-                />
-                <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
-              </Field.Root>
-
-              <Link href="/forgot-password">
-                <Text color="blue.500" textAlign="center" mt={2} fontSize="xs">
-                  Forgot your password? Reset it here
+              {!!dbError && (
+                <Text color="red.500" textAlign="center" mt={2}>
+                  {dbError}
                 </Text>
-              </Link>
+              )}
 
               <Button
                 size="lg"
@@ -133,7 +127,7 @@ const LoginPage = () => {
                 type="submit"
                 loading={isFormSubmitting}
               >
-                Login
+                Request password reset
               </Button>
 
               <Box mt={4} textAlign="center">
@@ -151,4 +145,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default ForgotPasswordPage;
