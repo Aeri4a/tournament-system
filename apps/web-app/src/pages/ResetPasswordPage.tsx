@@ -8,42 +8,49 @@ import {
   Text,
   Field,
   IconButton,
-  Link,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useLoginMutation } from '../api/authApi';
-import { LoginFormInputs, loginSchema } from '@/zod/loginSchema';
-import { UserLoginDto } from 'common';
-import { useNavigate } from '@tanstack/react-router';
+import { useResetPasswordMutation } from '../api/authApi';
+import { ResetPasswordDto } from 'common';
+import { useNavigate, useSearch } from '@tanstack/react-router';
 import { LuArrowLeft } from 'react-icons/lu';
+import {
+  ResetPasswordFormInputs,
+  resetPasswordSchema,
+} from '@/zod/resetPasswordSchema';
 
-const LoginPage = () => {
+const ResetPasswordPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting: isFormSubmitting },
-  } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<ResetPasswordFormInputs>({
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      token: '',
+      newPassword: '',
+      confirmNewPassword: '',
     },
     mode: 'onTouched',
   });
 
   const navigation = useNavigate();
+  const query: { token: string } = useSearch({ from: '/reset-password' });
 
-  const loginMutation = useLoginMutation();
+  const resetPasswordMutation = useResetPasswordMutation();
 
-  const onSubmit = (data: LoginFormInputs) => {
-    const credentials: UserLoginDto = {
-      email: data.email,
-      password: data.password,
+  const onSubmit = (data: ResetPasswordDto) => {
+    const credentials: ResetPasswordDto = {
+      token: query['token'],
+      newPassword: data.newPassword,
     };
-    loginMutation.mutate(credentials, {
+    resetPasswordMutation.mutate(credentials, {
       onSuccess: () => {
         navigation({ to: '/', replace: true });
+      },
+      onError: (error) => {
+        console.log(error);
       },
     });
   };
@@ -90,41 +97,37 @@ const LoginPage = () => {
               pl={{ sm: 0, md: 10, lg: 10 }}
               pt={{ sm: 5, lg: 0, md: 0 }}
             >
-              <Field.Root invalid={!!errors.email}>
-                <Input
-                  id="email"
-                  placeholder="Email"
-                  type="email"
-                  bg="white"
-                  borderColor="gray.400"
-                  color="gray.800"
-                  size="lg"
-                  _placeholder={{ color: 'gray.500' }}
-                  {...register('email')}
-                />
-                <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
-              </Field.Root>
-
-              <Field.Root invalid={!!errors.password}>
+              <Field.Root invalid={!!errors.newPassword}>
                 <Input
                   id="password"
-                  placeholder="Password"
+                  placeholder="New password"
                   type="password"
                   bg="white"
                   borderColor="gray.400"
                   color="gray.800"
                   size="lg"
                   _placeholder={{ color: 'gray.500' }}
-                  {...register('password')}
+                  {...register('newPassword')}
                 />
-                <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
+                <Field.ErrorText>{errors.newPassword?.message}</Field.ErrorText>
               </Field.Root>
 
-              <Link href="/forgot-password">
-                <Text color="blue.500" textAlign="center" mt={2} fontSize="xs">
-                  Forgot your password? Reset it here
-                </Text>
-              </Link>
+              <Field.Root invalid={!!errors.confirmNewPassword}>
+                <Input
+                  id="confirmNewPassword"
+                  placeholder="Confirm new password"
+                  type="password"
+                  bg="white"
+                  borderColor="gray.400"
+                  color="gray.800"
+                  size="lg"
+                  _placeholder={{ color: 'gray.500' }}
+                  {...register('confirmNewPassword')}
+                />
+                <Field.ErrorText>
+                  {errors.confirmNewPassword?.message}
+                </Field.ErrorText>
+              </Field.Root>
 
               <Button
                 size="lg"
@@ -133,16 +136,8 @@ const LoginPage = () => {
                 type="submit"
                 loading={isFormSubmitting}
               >
-                Login
+                Update password
               </Button>
-
-              <Box mt={4} textAlign="center">
-                <Link href="/register">
-                  <Text color="blue.500" textAlign="center" mt={2}>
-                    Not a member? Sign up here
-                  </Text>
-                </Link>
-              </Box>
             </VStack>
           </Flex>
         </Box>
@@ -151,4 +146,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default ResetPasswordPage;

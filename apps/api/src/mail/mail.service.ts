@@ -14,7 +14,7 @@ export class MailService {
 
   sendRegisterConfirmationLink(email: User['email'], activationToken: string) {
     // TODO: env to create link
-    const link = `http://localhost:3000/api/auth/confirmation?token=${activationToken}`;
+    const link = `http://localhost:5173/activate?token=${activationToken}`;
 
     return this.mailerService.sendMail({
       to: email,
@@ -25,7 +25,7 @@ export class MailService {
 
   sendPasswordResetLink(email: User['email'], token: string) {
     // TODO: env to create link
-    const link = `http://localhost:3000/reset-password?token=${token}`;
+    const link = `http://localhost:5173/reset-password?token=${token}`;
 
     return this.mailerService.sendMail({
       to: email,
